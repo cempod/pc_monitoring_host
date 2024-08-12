@@ -2,6 +2,7 @@ import clr
 import time
 import serial
 import serial.tools.list_ports
+import os
 
 hwtypes = ['Mainboard','SuperIO','CPU','RAM','GpuNvidia','GpuAti','TBalancer','Heatmaster','HDD']
 cpu_t = 0
@@ -10,8 +11,7 @@ cpu_l = 0
 gpu_l = 0
 
 def initialize_openhardwaremonitor():
-    #file = rf'{os.getcwd()}\OpenHardwareMonitorLib.dll'
-    clr.AddReference(r'E://programming/pc_monitoring_host/OpenHardwareMonitorLib.dll')
+    clr.AddReference(os.path.abspath('OpenHardwareMonitorLib.dll'))
 
     from OpenHardwareMonitor import Hardware
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
             print(port.device)
             try:
                 ser = serial.Serial(port.device, baudrate=115200,timeout=1)
-                if(ser.write(bytearray([6,9]))):
+                if(ser.write(b"PCMACS")):
                     print("Written")
                 else:
                     print("Can't write")
