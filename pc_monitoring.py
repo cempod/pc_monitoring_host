@@ -67,6 +67,8 @@ if __name__ == "__main__":
                     print("Can't write")
                 if(ser.read(2)==b"OK"):
                     print("Connected")
+                    t = time.localtime(time.time())
+                    ser.write(bytearray([t.tm_hour, t.tm_min, t.tm_sec]))
                     HardwareHandle = initialize_openhardwaremonitor()
                     while(1):
                         fetch_stats(HardwareHandle)
