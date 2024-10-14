@@ -69,6 +69,12 @@ if __name__ == "__main__":
                     print("Connected")
                     t = time.localtime(time.time())
                     ser.write(bytearray([t.tm_hour, t.tm_min, t.tm_sec]))
+                    try:
+                        with open("co.lor") as f:
+                            r, g, b = [int(x) for x in next(f).split()]
+                            ser.write(bytearray([201, 218, 0, 0, r, g, b, 54]))
+                    except Exception:
+                        ser.write(bytearray([201, 218, 0, 0, 255, 0, 0, 54]))
                     HardwareHandle = initialize_openhardwaremonitor()
                     while(1):
                         fetch_stats(HardwareHandle)
